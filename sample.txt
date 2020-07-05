@@ -1,0 +1,4 @@
+def fin():
+	print('hello world')
+
+fin()
