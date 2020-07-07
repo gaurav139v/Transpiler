@@ -2,12 +2,9 @@
 #define LEXICALANALYZER_H_INCLUDED
 
 #include<string.h>
-
 #include "declaration.h"
 
 extern Token *tokRear, *tokFront;
-
-
 
 Queue*  gen_str(Queue *firstChar, Queue *lastChar){
     char *tChar;
@@ -82,7 +79,7 @@ int isGraphic(char c){
 
 /*
 * Token which contain the token,token-type,token-name
-* Add the token to the token-list
+* Add the token to the token-list it's a global variable
 */
 int generateToken(char tChar[],int tType,int tName){
     int tokenLength,i;
@@ -527,7 +524,6 @@ Queue* tokenize(Queue *firstChar,Queue *lastChar){
         printf("%d ",temp -> val);
         temp = temp -> prev;
     }
-    //////////////////////
 
     firstChar = firstChar -> prev;
     pushQueue(0,lastChar);
@@ -540,19 +536,24 @@ Queue* tokenize(Queue *firstChar,Queue *lastChar){
     return lastChar;
 }
 
+/*
+* This function take the input file name which contain python code
+*/
 int tokenizer(const char *file_name){
     int indentCount = 0;  // number of spaces in the line start
     char ch;
     FILE *file;
     file = fopen(file_name,"r");
 
-
     // variables for the indentation list uses [stack]
+    // create a stack with 0 value
     Stack *temp, *top;
     top = (Stack*)malloc(sizeof(Stack));
     top -> value = 0;
     top -> next = NULL;
 
+    // create a queue with 0 value
+    // tokFront and tokRear are global variable
     tokFront = (Token*)malloc(sizeof(Token));
     tokFront -> tokChar = 'a';
     tokFront -> tokName = 0;
@@ -561,6 +562,7 @@ int tokenizer(const char *file_name){
     tokRear = tokFront;
 
     // variables for the statement tokenization  uses [queue]
+    // queue initialization
     Queue *rear,*front;
     front = (Queue*)malloc(sizeof(Queue));
     front -> next = NULL;
@@ -569,10 +571,9 @@ int tokenizer(const char *file_name){
     rear = front;
 
 
-    ch = fgetc(file);
-
+    ch = fgetc(file); // fetch first char from the file
+    // keep reading file until the end
     while(ch != EOF){
-
         // To skip the new line character
         if(ch == '\n'){
             ch = fgetc(file);
@@ -584,20 +585,20 @@ int tokenizer(const char *file_name){
             continue;
         }
 
-        //  To count the tab in the start of the line
+        //  To count the tab in the start of the line TAB ascii value is 9
         while(ch == 9){
-            indentCount += 8;
+            indentCount += 4;  // one tab = 8 spaces
             ch = fgetc(file);
-
         }
 
-        // To count the spaces in the start of the line
+        // To count the spaces in the start of the line sapce ascii value is 32
         while(ch == 32){
             indentCount += 1;
             ch = fgetc(file);
         }
 
         // To check if the actual statement of the program is start or not
+        // when it's is not a new line or space
         if(ch != '\n' || ch != 32){
             /*
             * generate the INDENT token
