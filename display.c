@@ -16,6 +16,7 @@ void disp_global(Ast *s){
     while(temp != NULL){
         printf("\nvarExp : %s",temp->ast.op.varExp.tokChar);
         temp = temp -> next;
+        
     }
 }
 

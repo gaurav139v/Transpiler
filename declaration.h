@@ -40,6 +40,7 @@ typedef struct Queue {
 }Queue;
 
 // push the value in the stack
+// return the new top
 Stack* pushStack(int v, Stack *top){
     Stack *temp;
     temp = (Stack*)malloc(sizeof(Stack));
@@ -50,13 +51,14 @@ Stack* pushStack(int v, Stack *top){
 }
 
 // pop the value from the stack
+// return a new top
 Stack* popStack(Stack *top){
     top = top -> next;
     return top;
 }
 
 // push data in the queue
-Queue* pushQueue(char data,Queue *rear){
+Queue* pushQueue(char data, Queue *rear){
     Queue *temp;
     temp = (Queue*)malloc(sizeof(Queue));
     rear -> prev = temp;
