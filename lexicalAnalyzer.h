@@ -587,7 +587,7 @@ int tokenizer(const char *file_name){
 
         //  To count the tab in the start of the line TAB ascii value is 9
         while(ch == 9){
-            indentCount += 4;  // one tab = 8 spaces
+            indentCount += 4;  // one tab = 4 spaces
             ch = fgetc(file);
         }
 
