@@ -82,9 +82,9 @@ int isGraphic(char c){
 * Add the token to the token-list it's a global variable
 */
 int generateToken(char tChar[],int tType,int tName){
-    int tokenLength,i;
+    int tokenLength, i;
     Token *newtok;
-    tokenLength = strlen(tChar)+1;
+    tokenLength = strlen(tChar) + 1;
 
     newtok = (Token*)malloc(sizeof(Token));
     newtok -> tokChar = (char*)malloc(sizeof(char)*tokenLength);
@@ -577,7 +577,7 @@ int tokenizer(const char *file_name){
         // To skip the new line character
         if(ch == '\n'){
             ch = fgetc(file);
-            // For not generating the termination token in blank lines
+            // Generate statement termination token on blank line
             if(ch != '\n'){
                 generateToken("\\n",ST,ST);
             }
@@ -616,6 +616,7 @@ int tokenizer(const char *file_name){
                 if(indentCount < top -> value ){
                     while(indentCount != top -> value){
                         top = popStack(top);
+                        // need to add logic for error msg
                         generateToken("DEDENT",DEDENT,DEDENT);
                         /*
                         // To show error in Indentation
