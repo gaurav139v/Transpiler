@@ -632,7 +632,6 @@ int tokenizer(const char *file_name){
 
             // For Tokenization of the statements
             while(ch != '\n'){
-
                 /*
                 * Tokenize the program
                 */
